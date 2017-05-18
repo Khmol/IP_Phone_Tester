@@ -11,8 +11,6 @@ class Tester_AKB(QtWidgets.QMainWindow):
     # pyuic5 Form_Tester_AKB.ui -o Form_Tester_AKB.py
     def __init__(self, parent = None):
         QtWidgets.QWidget.__init__(self, parent)
-        self.MODE = 'TEST'
-        # self.MODE = 'WORK'
         # определяем переменные для работы основной программы
         self.num_chnl = 0 #номер запрашиваемого канала
         self.Transmit_Off = True    #флаг выключеной передачи (файл закрыт)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form_Tester_AKB</class>
- <widget class="QMainWindow" name="Form_Tester_AKB">
+ <class>UI_IP_Phone_Tester</class>
+ <widget class="QMainWindow" name="UI_IP_Phone_Tester">
   <property name="geometry">
    <rect>
     <x>0</x>

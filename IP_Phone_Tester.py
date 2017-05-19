@@ -1,20 +1,31 @@
 #coding: utf8
-# from RS_Commands_Tester_AKB import *
+from RS_IP_Phone_Tester import *
 # from Application_Tester_AKB import *
 # from Form_Events_Tester_AKB import *
 from PyQt5.QtCore import QBasicTimer
 from UI_IP_Phone_Tester import *
 import sys
 
-class Tester_AKB(QtWidgets.QMainWindow):
+class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
     # инициализация окна
-    # pyuic5 Form_Tester_AKB.ui -o Form_Tester_AKB.py
+    # pyuic5 UI_IP_Phone_Tester.ui -o UI_IP_Phone_Tester.py
     def __init__(self, parent = None):
         QtWidgets.QWidget.__init__(self, parent)
-        # определяем переменные для работы основной программы
-        self.num_chnl = 0 #номер запрашиваемого канала
-        self.Transmit_Off = True    #флаг выключеной передачи (файл закрыт)
-        self.flag_RX_OK = False #флаг успешного приема
+        # инициализация интерфейса
+        self.setupUi(self)
+        # определяем таймер
+        self.timer_RX_RS = QBasicTimer()
+        self.timer_RX_RS.stop()
+        # подключаем модули
+        self.rs = RS_IP_Phone_Tester()                # подключение функций работы по RS
+        # self.event = Form_Events_Tester_AKB(self)   # определение обработчиков событий
+        # self.app = Application(self)
+
+        # настройка действий по кнопкам
+        # self.event.Init_Widgets()
+
+
+    def Init_Var(self):
         # словарь для ID1
         self.cur_cmd = {
             "IDLE" : 0,
@@ -30,19 +41,6 @@ class Tester_AKB(QtWidgets.QMainWindow):
         self.MAX_WAIT_BYTES = 200    #максимальное количество байт в буфере порта на прием
         self.NUMBER_SCAN_PORTS = 20  #количество портов для сканирования
         self.SET = 1                #значения для парсинга пакета
-        # инициализация интерфейса
-        self.ui = Ui_Form_Tester_AKB()      #инициализация графического интерфейса
-        self.ui.setupUi(self)
-        # определяем таймер
-        self.timer_RX_RS = QBasicTimer()
-        self.timer_RX_RS.stop()
-        # подключаем модули
-        # self.rs = RS_Commands_Tester_AKB(self)                 #подключение функций работы по RS
-        # self.event = Form_Events_Tester_AKB(self)   #определение обработчиков событий
-        # self.app = Application(self)
-
-        # настройка действий по кнопкам
-        # self.event.Init_Widgets()
 
 
     def Set_Status_AKB(self, new_status):
@@ -163,6 +161,6 @@ class Tester_AKB(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    myapp = Tester_AKB()
+    myapp = IP_Phone_Tester()
     myapp.show()
     sys.exit(app.exec_())

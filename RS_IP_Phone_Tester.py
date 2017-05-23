@@ -96,23 +96,26 @@ class RS_IP_Phone_Tester(object):
         return self.RX_Data
 
 
-    def Send_Command(self, data, app_mode):
+    def Send_Command(self, data, app_mode = None):
         '''
         подготовка данных для отправки
         :param data: {int list} данные для отправки
         :param app_mode: {str} 'TEST' - для тестового режима
         :return: {bytearray} отправленные данные / None если не отправлено
         '''
-        data_to_send = bytearray()
         if self.ser.isOpen():
-            # преобразуем данные
-            for d in data:
-                if isinstance(d, int):
-                    data_to_send += d.to_bytes(1,'little')
-                else:
-                    return None
+            # преобразуем данные если нужно
+            if isinstance(data, bytearray):
+                data_to_send = data
+            else:
+                data_to_send = bytearray()
+                for d in data:
+                    if isinstance(d, int):
+                        data_to_send += d.to_bytes(1,'little')
+                    else:
+                        return None
             self.ser.write(data_to_send)
-            if app_mode == 'TEST':
+            if app_mode:
                 self.Show_TX_DATA(data_to_send)
             return data_to_send
         else:

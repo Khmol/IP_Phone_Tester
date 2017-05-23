@@ -9,10 +9,10 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
     # определяем константы
     MODE_TEST = True    # вкл. тестовый режим
     CUR_CMD = {         # возможные состояния программы
-        "IDLE": 0,
-        "CLEAR": 1,
+        "NONE": 0,
+        "IDLE": 1,
         "CHECK": 2,
-        "RELE": 3,
+        "NONEs": 3,
     }
     BAUDRATES = ['1200', '9600', '19200', '38400', '57600', '115200']  # возможные значения скоростей для RS-232
     LENGTH_LED_CMD = 8      # длина принимаемого пакета
@@ -22,7 +22,7 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
     START = 0x40
     STOP = 0x5E
     SEPARATOR = 0x7C
-    CMD_MIC = {
+    CMD_TX = {
         'IDLE':             bytearray([0x40,0x30,0x7C,0x7C,0x5E]),
         'REQ_DIALTONE':     bytearray([0x40,0x34,0x7C,0x7C,0x5E]),
         'LED1_ON':          bytearray([0x40,0x35,0x7C,0x31,0x7C,0x31,0x5E]),
@@ -34,8 +34,15 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         'LEDS_ON':          bytearray([0x40,0x36,0x7C,0x31,0x7C]), # последние 3 байта не показаны
         'LEDS_OFF':         bytearray([0x40,0x36,0x7C,0x30,0x7C]), # последние 3 байта не показаны
         'LEDS_BLINK':       bytearray([0x40,0x36,0x7C,0x32,0x7C]), # последние 3 байта не показаны
+        'HENDSET_ON':       bytearray([0x40,0x37,0x7C,0x31,0x7C,0x5E]),
+        'HENDSET_OFF':      bytearray([0x40,0x37,0x7C,0x30,0x7C,0x5E]),
+        'MIC_ON':           bytearray([0x40,0x38,0x7C,0x31,0x7C,0x5E]),
+        'MIC_OFF':          bytearray([0x40,0x38,0x7C,0x30,0x7C,0x5E]),
+        'SPEAK_ON':         bytearray([0x40,0x39,0x7C,0x31,0x7C,0x5E]),
+        'SPEAK_OFF':        bytearray([0x40,0x39,0x7C,0x30,0x7C,0x5E]),
+        'HORN_ON':          bytearray([0x40,0x31,0x30,0x7C,0x31,0x7C,0x5E]),
+        'HORN_OFF':         bytearray([0x40,0x31,0x30,0x7C,0x30,0x7C,0x5E]),
     }
-
 
     # инициализация окна
     # pyuic5 UI_IP_Phone_Tester.ui -o UI_IP_Phone_Tester.py
@@ -51,22 +58,17 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         # инициализация переменных
         self.Init_Var()
         # настройка действий по кнопкам
-        # self.Init_Widgets()
-        self.test()
+        self.Init_Widgets()
         pass
-
 
     def test(self):
-        for key, val in self.CMD_MIC.items():
-            print(key)
-            print(val)
-
-
-    def Init_Var(self):
-        self.__Status_new = self.CUR_CMD["IDLE"] #текущее состояние
-
-    def Init_Widget(self):
-        pass
+        for i in 'hallo world':
+            if i == 'a':
+                break
+            else:
+                print('есть')
+        else:
+            print('Буквы a в строке нет')
 
     @property
     def status_new(self):
@@ -83,25 +85,234 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         self.__Status_new = status
 
 
-    def Parsing_Rx_Pack(self, data_in):
+    def Init_Var(self):
+        self.__Status_new = self.CUR_CMD["NONE"] #текущее состояние
+        self.cb_State = []
+        for i in range (1,31):
+            self.cb_State.append(False)
+
+
+    def Init_Widgets(self):
+        #настройка списка для выбора порта
+        self.comboBox_COM.addItems(self.rs.scan_COM_ports())
+        self.comboBox_COM.setCurrentIndex(0)
+        #добавляем нужные скорости в comboBox_Baudrate
+        self.comboBox_Baudrate.addItems(self.BAUDRATES)
+        self.comboBox_Baudrate.setCurrentIndex(4)        #добавляем нужные скорости в comboBox_Baudrate
+        # обработчики для кнопок
+        self.pushButton_open_COM.clicked.connect(self.pb_Open_COM_Header)
+        self.pushButton_close_COM.clicked.connect(self.pb_Close_COM_Header)
+        self.pushButton_Check_Connect.clicked.connect(self.pb_Check_Connect_Header)
+        self.pushButton_LED_1.clicked.connect(self.pb_LED1_Header)
+        self.pushButton_LED_2.clicked.connect(self.pb_LED2_Header)
+        self.pushButton_Hendset.clicked.connect(self.pb_Hendset_Header)
+        self.pushButton_Mic.clicked.connect(self.pb_Mic_Header)
+        self.pushButton_Speak.clicked.connect(self.pb_Speak_Header)
+        self.pushButton_Horn.clicked.connect(self.pb_Horn_Header)
+        for i in range(1,31):
+            eval('self.checkBox_%i.stateChanged.connect(self.cb_Header)'%i)
+
+
+    def pb_Open_COM_Header(self):
+        '''
+        :return:
+        '''
+        self.status_new = self.CUR_CMD["IDLE"]
+        self.comboBox_COM.setDisabled(1)
+        self.comboBox_Baudrate.setDisabled(1)
+        baudrate = int(self.comboBox_Baudrate.currentText())
+        nom_com_port = self.comboBox_COM.currentText()
+        # конфигурируем RS
+        self.rs.Serial_Config(baudrate, nom_com_port)
+        self.rs.Init_RS_Var(baudrate)
+        # изменяем видимость кнопок
+        self.Enable_Widgets()
+        self.timer_RX_RS.start(self.rs.time_to_rx, self) #отправляем запрос защитного кода через self.time_to_rx мс
+        # self.app.ui.QtWidgets.QMessageBox.warning(self.app, 'Ошибка', "Ошибка передачи", QtWidgets.QMessageBox.Ok)
+
+
+    def pb_Close_COM_Header(self):
+        '''
+        #*********************************************************************
+        # активация кнопок после выбора порта и скорости
+        #*********************************************************************
+        :return:
+        '''
+        self.rs.Recieve_RS_Data()
+        # закрываем порт
+        if self.rs.Check_Serial:
+            self.rs.Serial_Close()
+        # изменяем видимость кнопок
+        self.Disable_Widgets()
+        self.status_new = self.CUR_CMD['NONE']
+
+
+    def pb_Check_Connect_Header(self):
+        self.rs.Send_Command(self.CMD_TX['REQ_DIALTONE'], self.MODE_TEST)
+
+    def pb_LED1_Header(self, d):
+        if self.pushButton_LED_1.isChecked():
+            # кнопка нажата
+            if self.radioButton_Perm.isChecked():
+                self.rs.Send_Command(self.CMD_TX['LED1_ON'], self.MODE_TEST)
+            else:
+                self.rs.Send_Command(self.CMD_TX['LED1_BLINK'], self.MODE_TEST)
+        else:
+            # кнопка отжата
+            self.rs.Send_Command(self.CMD_TX['LED1_OFF'], self.MODE_TEST)
+
+    def pb_LED2_Header(self):
+        if self.pushButton_LED_2.isChecked():
+            # кнопка нажата
+            if self.radioButton_Perm.isChecked():
+                self.rs.Send_Command(self.CMD_TX['LED2_ON'], self.MODE_TEST)
+            else:
+                self.rs.Send_Command(self.CMD_TX['LED2_BLINK'], self.MODE_TEST)
+        else:
+            # кнопка отжата
+            self.rs.Send_Command(self.CMD_TX['LED2_OFF'], self.MODE_TEST)
+
+    def pb_Hendset_Header(self):
+        if self.pushButton_Hendset.isChecked():
+            # кнопка нажата
+            self.rs.Send_Command(self.CMD_TX['HENDSET_ON'], self.MODE_TEST)
+        else:
+            # кнопка отжата
+            self.rs.Send_Command(self.CMD_TX['HENDSET_OFF'], self.MODE_TEST)
+
+    def pb_Mic_Header(self):
+        if self.pushButton_Mic.isChecked():
+            # кнопка нажата
+            self.rs.Send_Command(self.CMD_TX['MIC_ON'], self.MODE_TEST)
+        else:
+            # кнопка отжата
+            self.rs.Send_Command(self.CMD_TX['MIC_OFF'], self.MODE_TEST)
+
+    def pb_Speak_Header(self):
+        if self.pushButton_Speak.isChecked():
+            # кнопка нажата
+            self.rs.Send_Command(self.CMD_TX['SPEAK_ON'], self.MODE_TEST)
+        else:
+            # кнопка отжата
+            self.rs.Send_Command(self.CMD_TX['SPEAK_OFF'], self.MODE_TEST)
+
+    def pb_Horn_Header(self):
+        if self.pushButton_Horn.isChecked():
+            # кнопка нажата
+            self.rs.Send_Command(self.CMD_TX['HORN_ON'], self.MODE_TEST)
+        else:
+            # кнопка отжата
+            self.rs.Send_Command(self.CMD_TX['HORN_OFF'], self.MODE_TEST)
+
+    def cb_Header(self):
+        for i in range (1,31):
+            state = eval('self.checkBox_%i.isChecked()'%i)
+            data = bytearray()
+            if state == True and self.cb_State[i-1] == False:
+                self.cb_State[i-1] = True
+                if self.radioButton_Perm.isChecked():
+                    data += self.CMD_TX['LEDS_ON']
+                else:
+                    data += self.CMD_TX['LEDS_BLINK']
+                num_str = str(i)
+                if i < 10:
+                    num_str = '0' + num_str
+                # добавляем номер светодиода
+                data += ord(num_str[0]).to_bytes(1, 'little')
+                data += ord(num_str[1]).to_bytes(1, 'little')
+                data += self.STOP.to_bytes(1, 'little')
+                # отправляем команду
+                self.rs.Send_Command(data, self.MODE_TEST)
+            elif state == False and self.cb_State[i - 1] == True:
+                self.cb_State[i-1] = False
+                data += self.CMD_TX['LEDS_OFF']
+                num_str = str(i)
+                if i < 10:
+                    num_str = '0' + num_str
+                # добавляем номер светодиода
+                data += ord(num_str[0]).to_bytes(1, 'little')
+                data += ord(num_str[1]).to_bytes(1, 'little')
+                data += self.STOP.to_bytes(1, 'little')
+                # отправляем команду
+                self.rs.Send_Command(data, self.MODE_TEST)
+        return True
+
+
+    def Enable_Widgets(self):
+        self.comboBox_COM.setDisabled(1)
+        self.comboBox_Baudrate.setDisabled(1)
+        self.pushButton_open_COM.setDisabled(1)
+        self.pushButton_close_COM.setEnabled(1)
+        self.radioButton_Perm.setEnabled(1)
+        self.radioButton_Perm.setChecked(1)
+        self.radioButton_Blink.setEnabled(1)
+        self.pushButton_Next_LED.setEnabled(1)
+        self.pushButton_LED_1.setEnabled(1)
+        self.pushButton_LED_2.setEnabled(1)
+        self.pushButton_Hendset.setEnabled(1)
+        self.pushButton_Mic.setEnabled(1)
+        self.pushButton_Speak.setEnabled(1)
+        self.pushButton_Horn.setEnabled(1)
+        self.pushButton_Check_Connect.setEnabled(1)
+        for i in range(1,31):
+            eval('self.checkBox_%i.setEnabled(1)'%i)
+
+    def Disable_Widgets(self):
+        self.comboBox_COM.setEnabled(1)
+        self.comboBox_Baudrate.setEnabled(1)
+        self.pushButton_open_COM.setEnabled(1)
+        self.pushButton_close_COM.setDisabled(1)
+        self.radioButton_Perm.setDisabled(1)
+        self.radioButton_Blink.setDisabled(1)
+        self.pushButton_Next_LED.setDisabled(1)
+        self.pushButton_LED_1.setDisabled(1)
+        self.pushButton_LED_2.setDisabled(1)
+        self.pushButton_Hendset.setDisabled(1)
+        self.pushButton_Mic.setDisabled(1)
+        self.pushButton_Speak.setDisabled(1)
+        self.pushButton_Horn.setDisabled(1)
+        self.pushButton_Check_Connect.setDisabled(1)
+        for i in range(1,31):
+            eval('self.checkBox_%i.setDisabled(1)' % i)
+            eval('self.checkBox_%i.setChecked(0)' % i)
+
+
+    def Extract_Command(self, data_in):
         """
         парсинг полученного пакета
-        param: data_in: {bytes}
-        return: [keys, status, u_pow, u_ampl, i_ampl, err]:
         """
-        keys = status = u_pow = u_ampl = i_ampl = 0
-        if len(data_in) != self.LENGTH:
-            err = True
+        num = 0
+        start_ok = False
+        data = bytearray()
+        # обрезаем начало до стартового символа
+        for d in data_in:
+            if d == self.START:
+                break
+            else:
+                num += 1
+        if num == len(data_in):
+            # в принятых данных нет стартового байта, возвращаем исходный пакет
+            return(data, data_in)
         else:
-            err = False
-            # выделяем данные из пакета
-            keys = int.from_bytes(data_in[KEYS_POS: KEYS_POS+1], byteorder='little') #преобразуем в int
-            status = int.from_bytes(data_in[STATUS_POS:STATUS_POS+1], byteorder='little') #преобразуем в int
-            u_pow = int.from_bytes(data_in[U_POW_POS:U_POW_POS+1], byteorder='little') #преобразуем в int
-            u_ampl = int.from_bytes(data_in[U_AMPL_POS:U_AMPL_POS+1], byteorder='little') #преобразуем в int
-            i_ampl = int.from_bytes(data_in[I_AMPL_LO_POS:I_AMPL_HI_POS+1], byteorder='little') #преобразуем в int
-        return (keys, status, u_pow, u_ampl, i_ampl, err)
+            tail = num
+            # выделяем команду и остаток
+            for d in data_in[num:]:
+                tail += 1
+                if d == self.START and start_ok == False:
+                    data += d.to_bytes(1, 'little')
+                    start_ok = True
+                elif d == self.STOP and start_ok == True:
+                    data += d.to_bytes(1, 'little')
+                    start_ok = False
+                    return(data, data_in[tail:])
+                elif start_ok == True:
+                    data += d.to_bytes(1, 'little')
 
+    def Parsing_RX_Data(self, data):
+        pass #40 36 7С 3y 7C 3х1 3х2 5E,
+        if data[0] == self.START and data[-1:] == bytearray([self.STOP]):
+            if data[1] == 0x36 and data[2] == 0x7C:
+                pass
 
     def analyze_pack(self):
         '''
@@ -110,58 +321,19 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         #*********************************************************************
         :return:
         '''
-        #проверка на стартовую и стоповую посылку
-        if self.rs_receive_pack[:1] == self.START and self.rs_receive_pack[:-1] == self.STOP:
-            # показать принятые данные в тестовом режиме
-            if self.MODE_TEST:
-                self.rs.Show_RX_DATA()
-            # производим разбор принятого пакета
-            cmd_rx, self.num_chnl, param, hours, minutes, seconds, stat_rele_1, stat_rele_2, err = self.app.Parsing_Rx_Pack(self.rs_receive_pack)
-            # проверка была ли ошибка длины в принятых данных
-            if err == True:
-                return ['Error']
-            if cmd_rx == CUR_CMD["CLEAR"] and self.status_new == CUR_CMD["CLEAR"]:
-                if param == 1:
-                    self.app.Set_Frame_Color('grey', self.num_chnl)
-                    self.app.Set_Label_Text( 'нет питания', self.num_chnl)
-                    return 'Ok'
-            elif cmd_rx == CUR_CMD["CHECK"] and self.status_new == CUR_CMD["CHECK"]:
-                if param == 0:
-                    self.app.Set_Frame_Color('red', self.num_chnl)
-                    self.app.Set_Label_Text( 'выключен', self.num_chnl )
-                elif param == 1:
-                    self.app.Set_Frame_Color('green', self.num_chnl)
-                    self.app.Set_Label_Text('t=%dч:%dмин:%2dс' % (hours, minutes, seconds) , self.num_chnl )
-                elif param == 2:
-                    self.app.Set_Frame_Color('grey', self.num_chnl)
-                    self.app.Set_Label_Text('t=%dч:%dмин:%2dс' % (hours, minutes, seconds) , self.num_chnl )
-                if stat_rele_1 == 1:
-                    self.app.Set_Frame_Color('green', 21)
-                    self.app.Set_Label_Text('включено', 21)
-                else:
-                    self.app.Set_Frame_Color('red', 21)
-                    self.app.Set_Label_Text('выключено', 21)
-                if stat_rele_2 == 1:
-                    self.app.Set_Frame_Color('green', 22)
-                    self.app.Set_Label_Text('включено', 22)
-                else:
-                    self.app.Set_Frame_Color('red', 22)
-                    self.app.Set_Label_Text('выключено', 22)
-                return 'Ok'
-            elif cmd_rx == CUR_CMD["RELE"] and self.status_new == CUR_CMD["RELE"]:
-                if self.num_chnl != 0:
-                    # ответ получен, сообщить что все установлено нормально
-                    text = "Настройки параметров "+str(self.num_chnl)+" реле успешно записаны."
-                    QtWidgets.QMessageBox.warning(self, 'Сообщение', text, QtWidgets.QMessageBox.Ok)
-                else:
-                    QtWidgets.QMessageBox.warning(self, 'Сообщение', "Режим заряда выключен", QtWidgets.QMessageBox.Ok)
-                self.Set_Status_AKB(CUR_CMD["IDLE"])
-                return 'Ok'
-            else:
-                #иначе возвращаем Error
-                return 'Error'
-        else:
-            return 'Error'
+        # проверка на стартовую и стоповую посылку
+
+        # показать принятые данные в тестовом режиме
+        if self.MODE_TEST:
+            self.rs.Show_RX_DATA()
+            # self.rs_receive_pack = bytearray([0x40, 0x33, 0x7C, 0x30, 0x7C, 0x30, 0x31, 0x5E])
+            self.rs_receive_pack = bytearray([0x41, 0x33, 0x7C, 0x30, 0x7C, 0x30, 0x31, 0x5E])
+        # производим разбор принятого пакета
+        data, self.rs_receive_pack = self.Extract_Command(self.rs_receive_pack)
+        res = self.Parsing_RX_Data(data)
+        # проверка была ли ошибка длины в принятых данных
+        if res:
+            return ['Error']
 
 
     def timerEvent(self, e):
@@ -173,40 +345,15 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         :return:
         '''
         self.timer_RX_RS.stop() #выключаем таймер
-        self.rs_receive_pack = self.rs.Recieve_RS_Data()    #получаем аднные
-        #есть ли принятые данные
-        if self.rs_receive_pack != '' and self.status_new != CUR_CMD["IDLE"]:
-            # анализируем полученные данные
-            self.result_analyze = self.analyze_pack()
-            #данные есть, проверяем что с ними нужно сделать
-            if self.result_analyze == 'Ok':
-                if self.status_new == CUR_CMD["CLEAR"]:
-                    #ничего не делаем в состоянии IDLE
-                    self.Set_Status_AKB(CUR_CMD["IDLE"])
-                if self.status_new == CUR_CMD["CHECK"]:
-                    # продолжаем опрос следующего канала
-                    if self.num_chnl < 20:
-                        self.num_chnl += 1
-                    else:
-                        self.num_chnl = 1
-                    # отправить "опрос каналов"
-                    self.rs.Send_Command_AKB(CUR_CMD['CHECK'], self.num_chnl)
-                    # запускаем таймер ожидания ответа 1 c
-                    self.timer_RX_RS.start(400, self)
+        if self.status_new != self.CUR_CMD['NONE']:
+            self.rs_receive_pack = self.rs.Recieve_RS_Data()    #получаем аднные
+            #есть ли принятые данные
+            if self.rs_receive_pack != '':
+                # анализируем полученные данные
+                self.result_analyze = self.analyze_pack()
             else:
-                #ответ не получен
-                QtWidgets.QMessageBox.warning(self, 'Ошибка',"Нет ответа от модуля.", QtWidgets.QMessageBox.Ok)
-        #принятых данных нет
-        elif self.status_new == CUR_CMD["IDLE"]:
-            return
-        else:
-            if self.status_new == CUR_CMD["CHECK"]:
-                # вернутся к исходному виду кнопок
-                self.event.pb_Stop_Polling_Header()
-            #ответ не получен
-            QtWidgets.QMessageBox.warning(self, 'Ошибка',"Нет ответа от модуля.", QtWidgets.QMessageBox.Ok)
-            #переходим в IDLE
-            self.Set_Status_AKB(CUR_CMD["IDLE"])
+                pass
+            self.timer_RX_RS.start(self.rs.time_to_rx, self)
         return
 
 if __name__ == "__main__":

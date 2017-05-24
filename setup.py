@@ -25,12 +25,12 @@ options = {
 }
 
 executables = [
-    Executable( os.path.abspath('Tester_AKB.py'), base = base, icon = '75.ico')
+    Executable( os.path.abspath('IP_Phone_Tester.py'), base = base, icon = 'touchscreen.ico')
 ]
 
-setup(name='Discharge_Tester',
+setup(name='IP_Phone_Tester',
       version='1.0',
-      description='Discharge_Tester',
-      options=options,
-      executables=executables
+      description='IP_Phone_Tester',
+      options = options,
+      executables = executables
       )

@@ -7,12 +7,10 @@ import sys
 class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
 
     # определяем константы
-    MODE_TEST = True    # вкл. тестовый режим
+    MODE_TEST = False    # вкл. тестовый режим
     CUR_CMD = {         # возможные состояния программы
         "NONE": 0,
         "IDLE": 1,
-        "CHECK": 2,
-        "NONEs": 3,
     }
     BAUDRATES = ['1200', '9600', '19200', '38400', '57600', '115200']  # возможные значения скоростей для RS-232
     LENGTH_LED_CMD = 8      # длина принимаемого пакета
@@ -88,6 +86,7 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
     def Init_Var(self):
         self.__Status_new = self.CUR_CMD["NONE"] #текущее состояние
         self.cb_State = []
+        self.rs_receive_pack = bytearray()
         for i in range (1,31):
             self.cb_State.append(False)
 
@@ -128,7 +127,6 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         # изменяем видимость кнопок
         self.Enable_Widgets()
         self.timer_RX_RS.start(self.rs.time_to_rx, self) #отправляем запрос защитного кода через self.time_to_rx мс
-        # self.app.ui.QtWidgets.QMessageBox.warning(self.app, 'Ошибка', "Ошибка передачи", QtWidgets.QMessageBox.Ok)
 
 
     def pb_Close_COM_Header(self):
@@ -309,10 +307,32 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
                     data += d.to_bytes(1, 'little')
 
     def Parsing_RX_Data(self, data):
+        '''
+        Парсинг принятых данных в data и изменение внешнего вида окна
+        :param data:
+        :return: True/ False
+        '''
         pass #40 36 7С 3y 7C 3х1 3х2 5E,
-        if data[0] == self.START and data[-1:] == bytearray([self.STOP]):
-            if data[1] == 0x36 and data[2] == 0x7C:
-                pass
+        if len(data) > 1:
+            if data[0] == self.START and data[-1:] == bytearray([self.STOP]):
+                if data[1] == 0x33 and data[2] == 0x7C and data[4] == 0x7C:
+                    try:
+                        num = int(chr(data[5]) + chr(data[6]))
+                    except ValueError:
+                        return False
+                    if data[3] == 0x30: # кнопка отжата
+                        text = 'отжата'
+                        text_for_command = 'self.frame_%i.setStyleSheet("background-color: rgb(255, 117, 53);")'
+                        eval('self.label_t%i.setText("%s")' % (num, text))
+                        eval(text_for_command % num)
+                        return True
+                    elif data[3] == 0x31: # кнопка нажата
+                        text = 'нажата'
+                        text_for_command = 'self.frame_%i.setStyleSheet("background-color: rgb(0, 150, 53);")'
+                        eval('self.label_t%i.setText("%s")' % (num, text))
+                        eval(text_for_command % num)
+                        return True
+        return False
 
     def analyze_pack(self):
         '''
@@ -326,14 +346,15 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         # показать принятые данные в тестовом режиме
         if self.MODE_TEST:
             self.rs.Show_RX_DATA()
-            # self.rs_receive_pack = bytearray([0x40, 0x33, 0x7C, 0x30, 0x7C, 0x30, 0x31, 0x5E])
-            self.rs_receive_pack = bytearray([0x41, 0x33, 0x7C, 0x30, 0x7C, 0x30, 0x31, 0x5E])
+            self.rs_receive_pack = bytearray([0x40, 0x33, 0x7C, 0x31, 0x7C, 0x33, 0x30, 0x5E])
         # производим разбор принятого пакета
         data, self.rs_receive_pack = self.Extract_Command(self.rs_receive_pack)
         res = self.Parsing_RX_Data(data)
         # проверка была ли ошибка длины в принятых данных
         if res:
-            return ['Error']
+            return True
+        else:
+            return False
 
 
     def timerEvent(self, e):
@@ -346,13 +367,12 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         '''
         self.timer_RX_RS.stop() #выключаем таймер
         if self.status_new != self.CUR_CMD['NONE']:
-            self.rs_receive_pack = self.rs.Recieve_RS_Data()    #получаем аднные
+            self.rs_receive_pack += self.rs.Recieve_RS_Data()    #получаем аднные
             #есть ли принятые данные
-            if self.rs_receive_pack != '':
+            if self.rs_receive_pack != bytearray():
                 # анализируем полученные данные
-                self.result_analyze = self.analyze_pack()
-            else:
-                pass
+                if not self.analyze_pack():
+                    QtWidgets.QMessageBox.warning(self, 'Ошибка', "Ошибка приема", QtWidgets.QMessageBox.Ok)
             self.timer_RX_RS.start(self.rs.time_to_rx, self)
         return
 

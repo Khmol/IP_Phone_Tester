@@ -30,7 +30,8 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>75.ico</normaloff>75.ico</iconset>
+    <normaloff>touchscreen.ico</normaloff>
+    <normalon>touchscreen.ico</normalon>touchscreen.ico</iconset>
   </property>
   <property name="animated">
    <bool>true</bool>
@@ -2683,7 +2684,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <widget class="QLabel" name="label_t28_2">
+     <widget class="QLabel" name="label_t30">
       <property name="geometry">
        <rect>
         <x>45</x>

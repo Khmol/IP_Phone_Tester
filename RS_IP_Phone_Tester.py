@@ -4,7 +4,7 @@ import serial
 import UI_IP_Phone_Tester
 
 MAX_WAIT_BYTES = 200    #максимальное количество байт в буфере порта на прием
-NUMBER_SCAN_PORTS = 5  #количество портов для сканирования
+NUMBER_SCAN_PORTS = 50  #количество портов для сканирования
 
 class RS_IP_Phone_Tester(object):
 

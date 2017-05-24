@@ -40,6 +40,7 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         'SPEAK_OFF':        bytearray([0x40,0x39,0x7C,0x30,0x7C,0x5E]),
         'HORN_ON':          bytearray([0x40,0x31,0x30,0x7C,0x31,0x7C,0x5E]),
         'HORN_OFF':         bytearray([0x40,0x31,0x30,0x7C,0x30,0x7C,0x5E]),
+        'SET_VOLUME':       bytearray([0x40,0x31,0x32,0x7C]),
     }
 
     # инициализация окна
@@ -57,7 +58,6 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         self.Init_Var()
         # настройка действий по кнопкам
         self.Init_Widgets()
-        pass
 
     def test(self):
         for i in 'hallo world':
@@ -87,6 +87,7 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         self.__Status_new = self.CUR_CMD["NONE"] #текущее состояние
         self.cb_State = []
         self.rs_receive_pack = bytearray()
+        self.last_LED = '30'
         for i in range (1,31):
             self.cb_State.append(False)
 
@@ -108,6 +109,10 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         self.pushButton_Mic.clicked.connect(self.pb_Mic_Header)
         self.pushButton_Speak.clicked.connect(self.pb_Speak_Header)
         self.pushButton_Horn.clicked.connect(self.pb_Horn_Header)
+        self.pushButton_Next_LED.clicked.connect(self.pb_Next_LED_Header)
+        self.pushButton_Next_LED_OFF.clicked.connect(self.pb_Next_LED_OFF_Header)
+        self.pushButton_Volume.clicked.connect(self.pb_Volume_Header)
+        self.verticalSlider_Volume.valueChanged.connect(self.sl_Volume_Header)
         for i in range(1,31):
             eval('self.checkBox_%i.stateChanged.connect(self.cb_Header)'%i)
 
@@ -212,28 +217,86 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
                     data += self.CMD_TX['LEDS_ON']
                 else:
                     data += self.CMD_TX['LEDS_BLINK']
-                num_str = str(i)
-                if i < 10:
-                    num_str = '0' + num_str
+                self.last_LED = str(i-1)
+                if i < 11:
+                    self.last_LED = '0' + self.last_LED
                 # добавляем номер светодиода
-                data += ord(num_str[0]).to_bytes(1, 'little')
-                data += ord(num_str[1]).to_bytes(1, 'little')
+                data += ord(self.last_LED[0]).to_bytes(1, 'little')
+                data += ord(self.last_LED[1]).to_bytes(1, 'little')
                 data += self.STOP.to_bytes(1, 'little')
                 # отправляем команду
                 self.rs.Send_Command(data, self.MODE_TEST)
             elif state == False and self.cb_State[i - 1] == True:
                 self.cb_State[i-1] = False
                 data += self.CMD_TX['LEDS_OFF']
-                num_str = str(i)
-                if i < 10:
-                    num_str = '0' + num_str
+                self.last_LED = str(i-1)
+                if i < 11:
+                    self.last_LED = '0' + self.last_LED
                 # добавляем номер светодиода
-                data += ord(num_str[0]).to_bytes(1, 'little')
-                data += ord(num_str[1]).to_bytes(1, 'little')
+                data += ord(self.last_LED[0]).to_bytes(1, 'little')
+                data += ord(self.last_LED[1]).to_bytes(1, 'little')
                 data += self.STOP.to_bytes(1, 'little')
                 # отправляем команду
                 self.rs.Send_Command(data, self.MODE_TEST)
         return True
+
+    def pb_Volume_Header(self):
+        # отправляем команду SET_VOLUME
+        data = bytearray()
+        data += self.CMD_TX['SET_VOLUME']
+        volume = self.label_main_Volume.text()
+        if len(volume) == 1:
+            data += ord('0').to_bytes(1, 'little')
+            data += ord(volume).to_bytes(1, 'little')
+            data += self.STOP.to_bytes(1, 'little')
+        else:
+            data += ord(volume[0]).to_bytes(1, 'little')
+            data += ord(volume[1]).to_bytes(1, 'little')
+            data += self.STOP.to_bytes(1, 'little')
+        self.rs.Send_Command(data, self.MODE_TEST)
+
+    def sl_Volume_Header(self):
+        self.label_main_Volume.setText(str(self.verticalSlider_Volume.value()))
+
+
+    def pb_Next_LED_Header(self):
+        data = bytearray()
+        if self.radioButton_Perm.isChecked():
+            data += self.CMD_TX['LEDS_ON']
+        else:
+            data += self.CMD_TX['LEDS_BLINK']
+        num = int(self.last_LED) + 1
+        self.last_LED = str(num)
+        if num < 10:
+            self.last_LED = '0' + self.last_LED
+        elif num >= 30:
+            self.last_LED = '00'
+            num = 0
+        eval('self.checkBox_%i.setCheckState(2)' % (num + 1))
+        # добавляем номер светодиода
+        data += ord(self.last_LED[0]).to_bytes(1, 'little')
+        data += ord(self.last_LED[1]).to_bytes(1, 'little')
+        data += self.STOP.to_bytes(1, 'little')
+        # отправляем команду
+        self.rs.Send_Command(data, self.MODE_TEST)
+
+    def pb_Next_LED_OFF_Header(self):
+        data = bytearray()
+        data += self.CMD_TX['LEDS_OFF']
+        num = int(self.last_LED) + 1
+        self.last_LED = str(num)
+        if num < 10:
+            self.last_LED = '0' + self.last_LED
+        elif num >= 30:
+            self.last_LED = '00'
+            num = 0
+        eval('self.checkBox_%i.setCheckState(0)' % (num + 1))
+        # добавляем номер светодиода
+        data += ord(self.last_LED[0]).to_bytes(1, 'little')
+        data += ord(self.last_LED[1]).to_bytes(1, 'little')
+        data += self.STOP.to_bytes(1, 'little')
+        # отправляем команду
+        self.rs.Send_Command(data, self.MODE_TEST)
 
 
     def Enable_Widgets(self):
@@ -252,6 +315,9 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         self.pushButton_Speak.setEnabled(1)
         self.pushButton_Horn.setEnabled(1)
         self.pushButton_Check_Connect.setEnabled(1)
+        self.pushButton_Volume.setEnabled(1)
+        self.pushButton_Next_LED_OFF.setEnabled(1)
+        self.verticalSlider_Volume.setEnabled(1)
         for i in range(1,31):
             eval('self.checkBox_%i.setEnabled(1)'%i)
 
@@ -270,6 +336,9 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         self.pushButton_Speak.setDisabled(1)
         self.pushButton_Horn.setDisabled(1)
         self.pushButton_Check_Connect.setDisabled(1)
+        self.pushButton_Volume.setDisabled(1)
+        self.pushButton_Next_LED_OFF.setDisabled(1)
+        self.verticalSlider_Volume.setDisabled(1)
         for i in range(1,31):
             eval('self.checkBox_%i.setDisabled(1)' % i)
             eval('self.checkBox_%i.setChecked(0)' % i)
@@ -312,12 +381,11 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         :param data:
         :return: True/ False
         '''
-        pass #40 36 7С 3y 7C 3х1 3х2 5E,
         if len(data) > 1:
             if data[0] == self.START and data[-1:] == bytearray([self.STOP]):
                 if data[1] == 0x33 and data[2] == 0x7C and data[4] == 0x7C:
                     try:
-                        num = int(chr(data[5]) + chr(data[6]))
+                        num = int(chr(data[5]) + chr(data[6])) + 1
                     except ValueError:
                         return False
                     if data[3] == 0x30: # кнопка отжата
@@ -332,6 +400,9 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
                         eval('self.label_t%i.setText("%s")' % (num, text))
                         eval(text_for_command % num)
                         return True
+                elif data[1] == 0x31 and data[2] == 0x7C and data[4] == 0x7C:
+                    self.frame_Connect.setStyleSheet("background-color: rgb(0, 150, 53);")
+                    return True
         return False
 
     def analyze_pack(self):
@@ -346,7 +417,7 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         # показать принятые данные в тестовом режиме
         if self.MODE_TEST:
             self.rs.Show_RX_DATA()
-            self.rs_receive_pack = bytearray([0x40, 0x33, 0x7C, 0x31, 0x7C, 0x33, 0x30, 0x5E])
+            self.rs_receive_pack = bytearray([0x40, 0x31, 0x7C, 0x30, 0x7C, 0x5E])
         # производим разбор принятого пакета
         data, self.rs_receive_pack = self.Extract_Command(self.rs_receive_pack)
         res = self.Parsing_RX_Data(data)
@@ -369,7 +440,7 @@ class IP_Phone_Tester(QtWidgets.QMainWindow, Ui_IP_Phone_Tester):
         if self.status_new != self.CUR_CMD['NONE']:
             self.rs_receive_pack += self.rs.Recieve_RS_Data()    #получаем аднные
             #есть ли принятые данные
-            if self.rs_receive_pack != bytearray():
+            if self.rs_receive_pack != bytearray() or self.MODE_TEST:
                 # анализируем полученные данные
                 if not self.analyze_pack():
                     QtWidgets.QMessageBox.warning(self, 'Ошибка', "Ошибка приема", QtWidgets.QMessageBox.Ok)

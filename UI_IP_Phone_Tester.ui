@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
-    <height>407</height>
+    <width>660</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>383</width>
-    <height>0</height>
+    <width>660</width>
+    <height>440</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1000</width>
-    <height>629</height>
+    <width>660</width>
+    <height>440</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -83,7 +83,7 @@
      <rect>
       <x>169</x>
       <y>27</y>
-      <width>91</width>
+      <width>101</width>
       <height>23</height>
      </rect>
     </property>
@@ -126,9 +126,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>265</x>
+      <x>275</x>
       <y>27</y>
-      <width>91</width>
+      <width>101</width>
       <height>23</height>
      </rect>
     </property>
@@ -195,7 +195,7 @@
       <x>10</x>
       <y>60</y>
       <width>201</width>
-      <height>311</height>
+      <height>341</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -218,7 +218,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -263,7 +263,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -284,7 +284,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -305,7 +305,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -326,7 +326,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -347,7 +347,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -368,7 +368,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -389,7 +389,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -410,7 +410,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -431,7 +431,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -452,7 +452,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -473,7 +473,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -494,7 +494,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -515,7 +515,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -536,7 +536,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -557,7 +557,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -578,7 +578,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -599,7 +599,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -620,7 +620,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -641,7 +641,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -662,7 +662,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -683,7 +683,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -704,7 +704,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -725,7 +725,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -746,7 +746,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -767,7 +767,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -788,7 +788,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -809,7 +809,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -830,7 +830,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -851,7 +851,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="text">
@@ -885,8 +885,8 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>280</y>
+       <x>20</x>
+       <y>310</y>
        <width>71</width>
        <height>23</height>
       </rect>
@@ -913,7 +913,7 @@
      <property name="geometry">
       <rect>
        <x>100</x>
-       <y>280</y>
+       <y>310</y>
        <width>71</width>
        <height>23</height>
       </rect>
@@ -947,7 +947,7 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
@@ -968,11 +968,32 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>11</pointsize>
+       <pointsize>9</pointsize>
       </font>
      </property>
      <property name="text">
       <string>Моргание</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_Next_LED_OFF">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>15</x>
+       <y>280</y>
+       <width>161</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Выключить следующий</string>
      </property>
     </widget>
    </widget>
@@ -1020,7 +1041,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1044,7 +1065,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1087,7 +1108,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1111,7 +1132,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1154,7 +1175,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1178,7 +1199,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1221,7 +1242,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1245,7 +1266,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1288,7 +1309,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1312,7 +1333,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1355,7 +1376,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1379,7 +1400,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1422,7 +1443,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1446,7 +1467,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1489,7 +1510,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1513,7 +1534,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1556,7 +1577,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1580,7 +1601,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1623,7 +1644,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1647,7 +1668,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1690,7 +1711,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1714,7 +1735,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1757,7 +1778,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1781,7 +1802,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1824,7 +1845,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1848,7 +1869,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1891,7 +1912,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1915,7 +1936,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1958,7 +1979,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -1982,7 +2003,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2025,7 +2046,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2049,7 +2070,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2092,7 +2113,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2116,7 +2137,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2159,7 +2180,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2183,7 +2204,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2226,7 +2247,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2250,7 +2271,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2293,7 +2314,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2317,7 +2338,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2360,7 +2381,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2384,7 +2405,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2427,7 +2448,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2451,7 +2472,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2494,7 +2515,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2518,7 +2539,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2561,7 +2582,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2585,7 +2606,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2628,7 +2649,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2652,7 +2673,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2695,7 +2716,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2719,7 +2740,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2762,7 +2783,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2786,7 +2807,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2829,7 +2850,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2853,7 +2874,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2896,7 +2917,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2920,7 +2941,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2963,7 +2984,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -2987,7 +3008,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="contextMenuPolicy">
@@ -3056,9 +3077,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>380</x>
       <y>27</y>
-      <width>111</width>
+      <width>121</width>
       <height>23</height>
      </rect>
     </property>
@@ -3071,13 +3092,121 @@
      <string>Проверка связи</string>
     </property>
    </widget>
+   <widget class="QSlider" name="verticalSlider_Volume">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>79</y>
+      <width>41</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>63</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_Volume">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>310</y>
+      <width>81</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Установить
+громкость</string>
+    </property>
+    <property name="checkable">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame_Connect">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>27</y>
+      <width>51</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_main_Volume">
+    <property name="geometry">
+     <rect>
+      <x>601</x>
+      <y>50</y>
+      <width>31</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>0</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_main_Volume_2">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>27</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::DefaultContextMenu</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Громкость</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>570</width>
+     <width>660</width>
      <height>18</height>
     </rect>
    </property>

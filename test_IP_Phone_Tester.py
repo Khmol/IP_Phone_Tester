@@ -67,7 +67,6 @@ class TestUM(unittest.TestCase):
         res = self.app.pb_Close_COM_Header()
         self.assertEqual(res, None)
 
-            #
 
     def tearDown(self):
         pass
